@@ -264,6 +264,14 @@
     <Compile Include="Migrations\201706241902137_PopulateGenres.Designer.cs">
       <DependentUpon>201706241902137_PopulateGenres.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706241906408_AddDataAnnotationsToGenreName.cs" />
+    <Compile Include="Migrations\201706241906408_AddDataAnnotationsToGenreName.Designer.cs">
+      <DependentUpon>201706241906408_AddDataAnnotationsToGenreName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241907355_AddDataAnnotationsToMovieName.cs" />
+    <Compile Include="Migrations\201706241907355_AddDataAnnotationsToMovieName.Designer.cs">
+      <DependentUpon>201706241907355_AddDataAnnotationsToMovieName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -419,6 +427,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706241902137_PopulateGenres.resx">
       <DependentUpon>201706241902137_PopulateGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241906408_AddDataAnnotationsToGenreName.resx">
+      <DependentUpon>201706241906408_AddDataAnnotationsToGenreName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241907355_AddDataAnnotationsToMovieName.resx">
+      <DependentUpon>201706241907355_AddDataAnnotationsToMovieName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
