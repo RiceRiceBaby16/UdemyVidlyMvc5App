@@ -3,6 +3,7 @@
 using CourseByMosh.Models;
 using CourseByMosh.ViewModels;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -27,13 +28,16 @@ namespace CourseByMosh.Controllers
 
         public ActionResult Index()
         {
-            return View();
-            //return View(new MoviesViewModel { Movies = GetMovies() });
+            return View(new MoviesViewModel { Movies = GetMovies() });
         }
 
-        //private List<Movie> GetMovies()
-        //{
-        //    return _context.Movies.ToList();
-        //}
+        private List<Movie> GetMovies(bool includeGenre = true)
+        {
+            var query = _context.Movies.AsQueryable();
+            if (includeGenre)
+                query = query.Include(m => m.Genre);
+
+            return query.ToList();
+        }
     }
 }
