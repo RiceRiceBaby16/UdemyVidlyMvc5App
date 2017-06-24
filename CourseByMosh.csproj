@@ -244,6 +244,26 @@
     <Compile Include="Migrations\201706241840459_AddMovies.Designer.cs">
       <DependentUpon>201706241840459_AddMovies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706241849458_AddGenreToMovie.cs" />
+    <Compile Include="Migrations\201706241849458_AddGenreToMovie.Designer.cs">
+      <DependentUpon>201706241849458_AddGenreToMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241855117_AddGenreToMovie1.cs" />
+    <Compile Include="Migrations\201706241855117_AddGenreToMovie1.Designer.cs">
+      <DependentUpon>201706241855117_AddGenreToMovie1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241859562_Pending.cs" />
+    <Compile Include="Migrations\201706241859562_Pending.Designer.cs">
+      <DependentUpon>201706241859562_Pending.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241901459_AddMoviesAndGenres.cs" />
+    <Compile Include="Migrations\201706241901459_AddMoviesAndGenres.Designer.cs">
+      <DependentUpon>201706241901459_AddMoviesAndGenres.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241902137_PopulateGenres.cs" />
+    <Compile Include="Migrations\201706241902137_PopulateGenres.Designer.cs">
+      <DependentUpon>201706241902137_PopulateGenres.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -384,6 +404,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706241840459_AddMovies.resx">
       <DependentUpon>201706241840459_AddMovies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241849458_AddGenreToMovie.resx">
+      <DependentUpon>201706241849458_AddGenreToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241855117_AddGenreToMovie1.resx">
+      <DependentUpon>201706241855117_AddGenreToMovie1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241859562_Pending.resx">
+      <DependentUpon>201706241859562_Pending.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241901459_AddMoviesAndGenres.resx">
+      <DependentUpon>201706241901459_AddMoviesAndGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241902137_PopulateGenres.resx">
+      <DependentUpon>201706241902137_PopulateGenres.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

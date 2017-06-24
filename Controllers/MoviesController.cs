@@ -27,12 +27,13 @@ namespace CourseByMosh.Controllers
 
         public ActionResult Index()
         {
-            return View(new MoviesViewModel { Movies = GetMovies() });
+            return View();
+            //return View(new MoviesViewModel { Movies = GetMovies() });
         }
 
-        private List<Movie> GetMovies()
-        {
-            return _context.Movies.ToList();
-        }
+        //private List<Movie> GetMovies()
+        //{
+        //    return _context.Movies.ToList();
+        //}
     }
 }
