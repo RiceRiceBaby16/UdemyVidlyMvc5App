@@ -6,4 +6,10 @@
 }
 
 <h2>@Model.Name</h2>
-
+<br />
+Membership type: @Model.MembershipType
+@if (!string.IsNullOrWhiteSpace(Model.BirthDate))
+{
+    <br />
+    @:Date of birth: @Model.BirthDate
+}

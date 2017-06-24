@@ -1,8 +1,14 @@
-﻿using CourseByMosh.Models;
+﻿#region Namespaces
+
+using CourseByMosh.Models;
 using CourseByMosh.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+
+#endregion Namespaces
 
 namespace CourseByMosh.Controllers
 {
@@ -23,17 +29,50 @@ namespace CourseByMosh.Controllers
 
         public ActionResult Index()
         {
-            return View(new CustomersViewModel { Customers = _context.Customers.Include(c => c.MembershipType).ToList() });
+            return View(new CustomersViewModel { Customers = GetCustomers() });
+        }
+
+        private List<Customer> GetCustomers(bool includeMembershipType = true)
+        {
+            var query = _context.Customers.AsQueryable();
+            if (includeMembershipType)
+                query = query.Include(c => c.MembershipType);
+
+            return query.ToList();
         }
 
         [Route("customers/details/{id}")]
         public ActionResult Details(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            Customer customer = GetCustomerById(id);
             if (customer == null)
                 return HttpNotFound("Customer not found");
 
-            return View(new CustomerDetailsViewModel { Name = customer.Name });
+            return View(CreateDetailsViewModel(customer));
+        }
+
+        private Customer GetCustomerById(int id, bool includeMembershipType = true)
+        {
+            var query = _context.Customers.AsQueryable();
+            if (includeMembershipType)
+                query = query.Include(c => c.MembershipType);
+
+            return query.SingleOrDefault(c => c.Id == id);
+        }
+
+        private CustomerDetailsViewModel CreateDetailsViewModel(Customer customer)
+        {
+            return new CustomerDetailsViewModel
+            {
+                BirthDate = GetBirthDateString(customer.BirthDate),
+                MembershipType = customer.MembershipType.Name,
+                Name = customer.Name
+            };
+        }
+
+        private string GetBirthDateString(DateTime? birthDate)
+        {
+            return birthDate.HasValue ? birthDate.Value.ToString("dd/MM/yyyy") : string.Empty;
         }
     }
 }
