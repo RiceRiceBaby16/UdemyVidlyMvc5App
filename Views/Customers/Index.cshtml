@@ -1,0 +1,30 @@
+﻿@using CourseByMosh.ViewModels
+@model CustomersViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+@if (Model.Customers == null || Model.Customers.Count == 0)
+{
+    @:We don't have any customers yet
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model.Customers)
+            {
+                <tr>
+                    <td>@Html.ActionLink(customer.Name, "Details", new { id = customer.Id })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,29 @@
+﻿@using CourseByMosh.ViewModels
+@model RandomMovieViewModel
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*
+    This is a Razor comment
+*@
+@{
+    var className = Model.Customers.Count > 0 ? "popular" : null;
+}
+<h2 class="@className">@Model.Movie.Name</h2>
+@if (Model.Customers.Count == 0)
+{
+    <p>No one has rented this movie before</p>
+    <text>No one has rented this movie before</text><!-- text isn't a standard Html5 element, but it is understood by Razor and will be rendered without markup around it -->
+}
+else
+{
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li>@customer.Name</li>
+        }
+    </ul>
+}
+
+
