@@ -1,5 +1,6 @@
 ﻿using CourseByMosh.Models;
 using CourseByMosh.ViewModels;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -22,7 +23,7 @@ namespace CourseByMosh.Controllers
 
         public ActionResult Index()
         {
-            return View(new CustomersViewModel { Customers = _context.Customers.ToList() });
+            return View(new CustomersViewModel { Customers = _context.Customers.Include(c => c.MembershipType).ToList() });
         }
 
         [Route("customers/details/{id}")]
