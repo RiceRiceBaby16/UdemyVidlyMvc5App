@@ -1,44 +1,38 @@
 ﻿using CourseByMosh.Models;
 using CourseByMosh.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CourseByMosh.Controllers
 {
-    //[Route("customers")]
     public class CustomersController : Controller
     {
-        private List<Customer> _customers;
+        private ApplicationDbContext _context;
 
         public CustomersController()
         {
-            _customers = new List<Customer>
-            {
-                new Customer{Id = 1, Name = "Josh Brookes"},
-                new Customer{Id = 2, Name = "Andy Brookes"},
-                new Customer{Id = 3, Name = "Clare Foster"}
-            };
+            _context = new ApplicationDbContext();
         }
 
-        // GET: Customers
-        //[Route("index")]
+        protected override void Dispose(bool disposing)
+        {
+            if (_context != null)
+                _context.Dispose();
+        }
+
         public ActionResult Index()
         {
-            return View(new CustomersViewModel { Customers = _customers });
+            return View(new CustomersViewModel { Customers = _context.Customers.ToList() });
         }
 
         [Route("customers/details/{id}")]
         public ActionResult Details(int id)
         {
-            var customer = _customers.Find(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
                 return HttpNotFound("Customer not found");
 
-            var detailsViewModel = new CustomerDetailsViewModel { Name = customer.Name };
-            return View(detailsViewModel);
+            return View(new CustomerDetailsViewModel { Name = customer.Name });
         }
     }
 }
