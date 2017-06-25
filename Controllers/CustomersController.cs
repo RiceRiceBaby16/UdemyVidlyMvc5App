@@ -79,6 +79,7 @@ namespace CourseByMosh.Controllers
         {
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = GetMembershipTypes()
             };
             return View("CustomerForm", viewModel);
@@ -90,13 +91,24 @@ namespace CourseByMosh.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(CustomerFormViewModel viewModel)// model binding
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(Customer customer)// model binding
         {
-            if (viewModel.Customer.Id == 0)
-                _context.Customers.Add(viewModel.Customer);
+            if (!ModelState.IsValid)// executes data annotations on the model
+            {
+                var viewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = GetMembershipTypes()
+                };
+                return View("CustomerForm", viewModel);
+            }
+
+            if (customer.Id == 0)
+                _context.Customers.Add(customer);
             else
             {
-                var existingCustomer = _context.Customers.Single(c => c.Id == viewModel.Customer.Id);
+                var existingCustomer = _context.Customers.Single(c => c.Id == customer.Id);
 
                 // Whitelist the properties than can be updated, but this is a security risk
                 //TryUpdateModel(customer, "", new string[] { "Name", "Email" });
@@ -106,9 +118,10 @@ namespace CourseByMosh.Controllers
                 //existingCustomer.IsSubscribedToNewsLetter = viewModel.Customer.IsSubscribedToNewsLetter;
                 //existingCustomer.MembershipTypeId = viewModel.Customer.MembershipTypeId;
                 //existingCustomer.Name = viewModel.Customer.Name;
+                
                 // Or automatically map properties
                 AutoMapper.Mapper.Initialize(config => config.CreateMap<Customer, Customer>());
-                AutoMapper.Mapper.Map(viewModel.Customer, existingCustomer);// use AutoMapper to simplify setting properties on one object from another
+                AutoMapper.Mapper.Map(customer, existingCustomer);// use AutoMapper to simplify setting properties on one object from another
             }
 
             _context.SaveChanges();

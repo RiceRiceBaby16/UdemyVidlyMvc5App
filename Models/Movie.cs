@@ -32,7 +32,7 @@ namespace CourseByMosh.Models
 
         [Display(Name = "Number in stock")]
         [Required]
-        [Range(1, 100)]
+        [Range(1, 20)]
         public int NumberInStock { get; set; }
 
         [Display(Name = "Date of release")]

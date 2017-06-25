@@ -73,20 +73,34 @@ namespace CourseByMosh.Controllers
 
         public ViewResult New()
         {
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel()
             {
-                Genres = _context.Genres.ToList()
+                Genres = _context.Genres.ToList(),
             };
             return View("MovieForm", viewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel(movie)
+                {
+                    Genres = _context.Genres.ToList()
+                };
+                return View("MovieForm", viewModel);
+            }
+
             if (movie.Id == 0)
                 _context.Movies.Add(movie);
             else
-                _context.Entry<Movie>(movie).State = EntityState.Modified;
+            {
+                var existingMovie = _context.Movies.Single(m => m.Id == movie.Id);
+                AutoMapper.Mapper.Initialize(config => config.CreateMap<Movie, Movie>());
+                AutoMapper.Mapper.Map(movie, existingMovie);
+            }
 
             _context.SaveChanges();
 
@@ -99,10 +113,9 @@ namespace CourseByMosh.Controllers
             if (existingMovie == null)
                 return HttpNotFound();
 
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel(existingMovie)
             {
-                Genres = _context.Genres.AsEnumerable(),
-                Movie = existingMovie
+                Genres = _context.Genres.AsEnumerable()
             };
 
             return View("MovieForm", viewModel);

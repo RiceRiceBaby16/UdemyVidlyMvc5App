@@ -6,6 +6,7 @@ namespace CourseByMosh.Models
     public class Customer
     {
         [Display(Name = "Date of birth")]
+        [Min18YearIfAMember]
         public DateTime? BirthDate { get; set; }
 
         public int Id { get; set; }
@@ -17,7 +18,7 @@ namespace CourseByMosh.Models
         [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter customer's name")]
         [StringLength(255)]
         public string Name { get; set; }
     }
