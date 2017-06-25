@@ -79,9 +79,14 @@ namespace CourseByMosh.Controllers
         {
             var viewModel = new CustomerFormViewModel
             {
-                MembershipTypes = _context.MembershipTypes.ToList()
+                MembershipTypes = GetMembershipTypes()
             };
             return View("CustomerForm", viewModel);
+        }
+
+        private IEnumerable<MembershipType> GetMembershipTypes()
+        {
+            return _context.MembershipTypes.ToList();
         }
 
         [HttpPost]

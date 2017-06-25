@@ -2,6 +2,7 @@
 
 using CourseByMosh.Models;
 using CourseByMosh.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -68,6 +69,47 @@ namespace CourseByMosh.Controllers
                 NumberInStock = movie.NumberInStock,
                 ReleaseDate = movie.ReleaseDate.ToString("dd/MM/yyyy")
             };
+        }
+
+        public ViewResult New()
+        {
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = _context.Genres.ToList()
+            };
+            return View("MovieForm", viewModel);
+        }
+
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+            {
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+                var existingMovie = _context.Movies.Single(m => m.Id == movie.Id);
+                AutoMapper.Mapper.Initialize(config => config.CreateMap<Movie, Movie>());
+                AutoMapper.Mapper.Map(movie, existingMovie);
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var existingMovie = _context.Movies.SingleOrDefault(m => m.Id == id);
+            if (existingMovie == null)
+                return HttpNotFound();
+
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = _context.Genres.AsEnumerable(),
+                Movie = existingMovie
+            };
+
+            return View("MovieForm", viewModel);
         }
     }
 }
