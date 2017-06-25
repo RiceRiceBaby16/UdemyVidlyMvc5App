@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using CourseByMosh.Dtos;
 using CourseByMosh.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace CourseByMosh.App_Start
 {
@@ -14,6 +10,8 @@ namespace CourseByMosh.App_Start
         {
             Mapper.CreateMap<Customer, CustomerDto>();
             Mapper.CreateMap<CustomerDto, Customer>();
+            Mapper.CreateMap<Movie, MovieDto>();
+            Mapper.CreateMap<MovieDto, Movie>();
         }
     }
 }

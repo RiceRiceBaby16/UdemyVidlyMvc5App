@@ -58,7 +58,7 @@ namespace CourseByMosh.Controllers.API
 
             var existingCustomer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (existingCustomer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             Mapper.Map(customerDto, existingCustomer);
             _context.SaveChanges();
