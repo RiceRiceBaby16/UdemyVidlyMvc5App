@@ -80,20 +80,16 @@ namespace CourseByMosh.Controllers
             return View("MovieForm", viewModel);
         }
 
+        [HttpPost]
         public ActionResult Save(Movie movie)
         {
             if (movie.Id == 0)
-            {
                 _context.Movies.Add(movie);
-            }
             else
-            {
-                var existingMovie = _context.Movies.Single(m => m.Id == movie.Id);
-                AutoMapper.Mapper.Initialize(config => config.CreateMap<Movie, Movie>());
-                AutoMapper.Mapper.Map(movie, existingMovie);
-            }
+                _context.Entry<Movie>(movie).State = EntityState.Modified;
 
             _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
