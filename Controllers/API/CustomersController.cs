@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseByMosh.Dtos;
 using CourseByMosh.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -24,56 +25,59 @@ namespace CourseByMosh.Controllers.API
         }
 
         // GET /api/customers/id
-        public CustomerDto GetCustomer(int id)
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            return Mapper.Map<Customer, CustomerDto>(customer);
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
         }
 
         // POST /api/customers
         [HttpPost]
-        public CustomerDto CreateCustomer(CustomerDto customerDto)// could name PostCustomer, which, by convention, would do away with the HttpPost attribute
+        public IHttpActionResult CreateCustomer(CustomerDto customerDto)// could name PostCustomer, which, by convention, would do away with the HttpPost attribute
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
             customerDto.Id = customer.Id;
-            return customerDto;
+            return Created(new Uri(string.Format("{0}/{1}", Request.RequestUri, customer.Id)), customerDto);
         }
 
         // PUT /api/customers/1
         [HttpPut]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var existingCustomer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (existingCustomer == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             Mapper.Map(customerDto, existingCustomer);
-
             _context.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE /api/customers/1
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
             var existingCustomer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (existingCustomer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _context.Customers.Remove(existingCustomer);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

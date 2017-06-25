@@ -6,7 +6,7 @@ namespace CourseByMosh.Dtos
 {
     public class CustomerDto
     {
-        [Min18YearIfAMember]
+        //[Min18YearIfAMember]
         public DateTime? BirthDate { get; set; }
 
         public int Id { get; set; }
